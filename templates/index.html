@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kod Öğrenme Asistanı</title>
+</head>
+<body>
+    <h1>Kod Öğrenme Asistanı</h1>
+    <form id="ask-form" method="POST">
+        <label for="question">Sorunuzu yazın:</label><br>
+        <input type="text" id="question" name="question"><br>
+        <button type="submit">Gönder</button>
+    </form>
+    <p id="answer"></p>
+
+    <script>
+        document.getElementById('ask-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const question = document.getElementById('question').value;
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question })
+            });
+            const data = await response.json();
+            document.getElementById('answer').innerText = data.answer;
+        });
+    </script>
+</body>
+</html>
